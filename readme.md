@@ -3,6 +3,7 @@
 ssh lxplus.cern.ch
 git clone https://github.com/elaird/hcalraw.git
 cd hcalraw
+git checkout jl
 source env/lxplus6.sh
 cd cpp; make -j 5; cd -
 
