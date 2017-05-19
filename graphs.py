@@ -1130,6 +1130,7 @@ def makeSummaryPdfMulti(inputFiles=[], feds1s=[], feds2s=[], pdf="summary.pdf", 
         if "ts" in pages:
             pageThree(stem="ADC_vs_TS_ErrF0_%d", gridX=True, **kargs)
             pageThree(stem="TDC_vs_TS_ErrF0_%d", gridX=True, **kargs)
+            pageThree(stem="TDCHitTime_vs_EvN_%d", **kargs)
             # pageThree(stem="ADC_vs_TS_ErrFNZ_%d", **kargs)
 
             feds1 = kargs["feds1"]  # stash default

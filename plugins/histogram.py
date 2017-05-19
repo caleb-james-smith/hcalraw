@@ -542,11 +542,11 @@ def histogramTdcs(book, fedId, block, channelData, nTsMax, errf, eq):
             book.fill(t, "TDCHitTime_%d" % fedId, 110, -55.0, 55.0,
                       title="FED %d;TDC hit time w.r.t. SoI (ns);Counts / bin" % fedId)
 
-            # nEvN = 1000
-            # book.fill((block["EvN"], t),
-            #           "TDCHitTime_vs_EvN_%d" % fedId,
-            #           (nEvN, 110), (0.5, -55.0), (nEvN + 0.5, 55.0),
-            #           title="FED %d;EvN;TDC hit time w.r.t. SoI (ns);Counts / bin" % fedId)
+            nEvN = 1000
+            book.fill((block["EvN"], t),
+                      "TDCHitTime_vs_EvN_%d" % fedId,
+                      (nEvN, 110), (0.5, -55.0), (nEvN + 0.5, 55.0),
+                      title="FED %d;EvN;TDC hit time w.r.t. SoI (ns);Counts / bin" % fedId)
 
 
 def histogramTsVsTime(book, fedTime, fedId, qies, adcMin=16, nBins=10):
