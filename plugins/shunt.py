@@ -8,6 +8,8 @@ from ADC_charge import getADC_charge
 MAX_SHUNT = 32
 shunt_bins = [1 + n * 500 for n in range(MAX_SHUNT)]
 
+FIB = 16
+
 # Shunt settings to keep
 SHUNT_MASK = [0b00000, 0b00001, 0b00010, 0b00100, 0b01000, 0b10000, 0b10010, \
 	      0b10100, 0b11000, 0b11010, 0b11100, 0b11110, 0b11111]
@@ -70,6 +72,7 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
 			else:
 			    continue
 
+			if fib != FIB: continue	
 
 			if (2 <= channelData["Flavor"]) and (not channelData["ErrF"]):
 			    printer.warning("Crate %d Slot %d Fib %d Channel %d has flavor %d" % \
@@ -113,6 +116,6 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
 				  nTsMax, -0.5, nTsMax-0.5,
 				  title="FED %d (ErrF %s 0);time slice;Charge [fC];Counts / bin" % (fedId, eq))
 
-			book.fill((shunt, charge), "Charge_vs_Gsel_%s_%d Fib %d" % (errf, fedId, fib),
+			book.fill((shunt, charge), "Charge_vs_Gsel_%s_%d_Fib_%d_TS_%d" % (errf, fedId, fib, i),
 				  MAX_SHUNT, -0.5, MAX_SHUNT - 0.5,
-				  title="FED %d (ErrF %s 0);Gsel;Charge [fC];Counts / bin" % (fedId, eq))
+				  title="Charge vs Gsel TS %d FED %d (ErrF %s 0);Gsel;Charge [fC];Counts / bin" % (i, fedId, eq))
