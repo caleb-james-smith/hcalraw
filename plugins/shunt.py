@@ -33,6 +33,7 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
             # get the important chunks of raw data
             blocks = dct["htrBlocks"].values()
 
+	    #pprint(blocks)
 	    # sanity checks for chunks
             for block in blocks:
                 if type(block) is not dict:
@@ -56,7 +57,7 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
                     for (i, adc) in enumerate(channelData["QIE"]):
 			if nTsMax <= i:
 			    break
-
+			"""
 			# From histogram.py
 			# the 32 fibers of HEP17 carrying SiPM data
 			if block["Crate"] != 34:
@@ -71,8 +72,12 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
 			    fib += channelData["Fiber"] - 12
 			else:
 			    continue
+			"""
+			fib = channelData["Fiber"]
+			fibCh = channelData["FibCh"]
+			#if fib != FIB: continue	
+			#print "Crate %d Slot %d Fiber %d channel %d" % (block["Crate"], block["Slot"], channelData["Fiber"], channelData["FibCh"])
 
-			if fib != FIB: continue	
 
 			if (2 <= channelData["Flavor"]) and (not channelData["ErrF"]):
 			    printer.warning("Crate %d Slot %d Fib %d Channel %d has flavor %d" % \
@@ -95,9 +100,9 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
 				  title="FED %d (ErrF %s 0);time slice;ADC;Counts / bin" % (fedId, eq))
 
 			book.fill((i, adc),
-				  "ADC_vs_TS_HEP17_%s_fib%d" % (errf, fib),
+				  "ADC_vs_TS_HEP17_%s_Fib_%d_Ch_%d" % (errf, fib, fibCh),
 				  nTsMax, nAdcMax, -0.5, nTsMax - 0.5,
-				  title="HEP17 Fib %d;time slice;ADC;Counts / bin" % fib)
+				  title="HEP17 Fib %d Ch %d;time slice;ADC;Counts / bin" % (fib, fibCh))
 
 			book.fill(adc,
 				  "HEP17_ADC_TS%d" % i,
@@ -106,16 +111,16 @@ def shunt(raw1={}, raw2={}, book=None, warnQuality=True, fewerHistos=False, **ot
 
 
 
-			book.fill((shunt, adc), "ADC_vs_Gsel_%s_%d Fib %d TS %d" % (errf, fedId, fib, i),
+			book.fill((shunt, adc), "ADC_vs_Gsel_%s_%d Fib %d Ch %d TS %d" % (errf, fedId, fib, fibCh, i),
                                   MAX_SHUNT, -0.5, MAX_SHUNT - 0.5, 
 				  title="FED %d (ErrF %s 0);Gsel;ADC;Counts / bin" % (fedId, eq))
 
 			charge = getADC_charge(shunt,adc)
 			# Linearized adc (charge vs TS)
-			book.fill((i, charge), "Charge_vs_TS_%s_%d Fib %d" % (errf, fedId, fib),
+			book.fill((i, charge), "Charge_vs_TS_%s_%d_Fib_%d_Ch_%d" % (errf, fedId, fib, fibCh),
 				  nTsMax, -0.5, nTsMax-0.5,
 				  title="FED %d (ErrF %s 0);time slice;Charge [fC];Counts / bin" % (fedId, eq))
 
-			book.fill((shunt, charge), "Charge_vs_Gsel_%s_%d_Fib_%d_TS_%d" % (errf, fedId, fib, i),
+			book.fill((shunt, charge), "Charge_vs_Gsel_%s_%d_Fib_%d_Ch_%d_TS_%d" % (errf, fedId, fib, fibCh, i),
 				  MAX_SHUNT, -0.5, MAX_SHUNT - 0.5,
 				  title="Charge vs Gsel TS %d FED %d (ErrF %s 0);Gsel;Charge [fC];Counts / bin" % (i, fedId, eq))

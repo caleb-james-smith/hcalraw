@@ -20,11 +20,11 @@ c = TCanvas("c","c",1700,1200)
 charge_ts_h = []
 
 # Pedestal charge
-ped_h = f.Get("Charge_vs_Gsel_ErrF0_1114_Fib_16_TS_1")
+ped_h = f.Get("Charge_vs_Gsel_ErrF0_1114_Fib_16_Ch_4_TS_1")
 ped_h.SetDirectory(0)
 
 for ts in TS_MASK:
-    htemp = f.Get("Charge_vs_Gsel_ErrF0_1114_Fib_16_TS_%d"%ts)
+    htemp = f.Get("Charge_vs_Gsel_ErrF0_1114_Fib_16_Ch_4_TS_%d"%ts)
     htemp.SetDirectory(0)
     charge_ts_h.append(htemp)
 
@@ -33,7 +33,7 @@ f.Close()
 
 # Total number of entries considered after charge addition
 binEntries = ped_h.GetBinEntries(1) * len(TS_MASK)
-print "binEntries = %d" % binEntries
+#print "binEntries = %d" % binEntries
 
 totQ = charge_ts_h[0].Clone()
 for i in xrange(1, len(TS_MASK)):
