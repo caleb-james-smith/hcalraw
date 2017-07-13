@@ -10,7 +10,7 @@ SHUNT_MASK = [0b00000, 0b00001, 0b00010, 0b00100, 0b01000, 0b10000, 0b10010, \
 r = re.compile(r"(?<!_)\d+\.\d+")
 
 ADC_charges = {}
-with open("data/adc_charges.tx", 'r') as f:
+with open("adc_charges.txt", 'r') as f:
     for i,line in enumerate(f):
         if line == '\n': continue
 

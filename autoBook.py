@@ -34,7 +34,7 @@ class autoBook(dict):
         elif type(x) != tuple:
             self[name] = r.TH1D(name, title, N, low, up)
         elif type(N) != tuple:
-            self[name] = r.TProfile(name, title, N, low, up)
+            self[name] = r.TProfile(name, title, N, low, up, "s")
         elif len(N) == 2:
             self[name] = r.TH2D(name, title,
                                 N[0], low[0], up[0],
